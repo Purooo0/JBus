@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 /**
  * Adhelia Putri Maylani [2206814816]
- * Version 9.9.23
+ * Version 5.10.23
  * CS - OOP
  */
 
@@ -65,6 +65,17 @@ public class JBus {
     }
     
     public static void main(String[] args){
+        Integer[] numbers = {10, 20, 30, 40, 50};
+        int valueToCheck = 30;
+
+        boolean result = Algorithm.exists(numbers, valueToCheck);
+
+        if(result){
+            System.out.println(valueToCheck + " terdapat dalam array.");
+        } else {
+            System.out.println(valueToCheck + " tidak terdapat dalam array.");
+        }
+        /*
         System.out.println("Hello from Intellij :)");
 
         Bus b = createBus();
@@ -95,7 +106,7 @@ public class JBus {
         System.out.println("\nUpdated Schedule\n");
         b.schedules.forEach(schedule -> schedule.printSchedule());
 
-        /*int s = 5;
+        int s = 5;
         Price[] unfilteredArray = new Price[s];
         for(int i = 0; i < unfilteredArray.length; i++){
             int j = 5000;
@@ -172,9 +183,9 @@ public class JBus {
         */
     }
 
-    public static Bus createBus() {
+    /*public static Bus createBus() {
         Price price = new Price(750000, 5);
         Bus bus = new Bus(1, "Netlab Bus", Facility.LUNCH, price, 25, BusType.REGULER, City.BANDUNG, new Station(1, "Depok Terminal", City.DEPOK, "Jl. Margonda Raya"), new Station(2, "Halte UI", City.JAKARTA, "Universitas Indonesia"));
         return bus;
-    }
+    }*/
 }
