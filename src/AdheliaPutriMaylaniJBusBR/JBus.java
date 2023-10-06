@@ -1,6 +1,9 @@
 package AdheliaPutriMaylaniJBusBR;
 import java.util.ArrayList;
 import java.sql.Timestamp;
+import java.util.Arrays;
+import java.util.List;
+import java.util.*;
 
 /**
  * Adhelia Putri Maylani [2206814816]
@@ -16,55 +19,118 @@ public class JBus {
         return bus;
     }
     */
-    public int getBusId(){
+    public int getBusId() {
         return 0;
     }
+
     public String getBusName() {
         return "Bus";
     }
-    public boolean isDiscount(){
+
+    public boolean isDiscount() {
         return true;
     }
-    public float getDiscountPercentage(int beforeDiscount, int afterDiscount){
-        if (beforeDiscount > afterDiscount){
+
+    public float getDiscountPercentage(int beforeDiscount, int afterDiscount) {
+        if (beforeDiscount > afterDiscount) {
             float percentage = ((float) (beforeDiscount - afterDiscount) / beforeDiscount) * 100;
             return percentage;
         } else {
             return 0.0f;
         }
     }
-    public int getDiscountedPrice(int price, float discountPercentage){
-        if (discountPercentage > 100.0f){
+
+    public int getDiscountedPrice(int price, float discountPercentage) {
+        if (discountPercentage > 100.0f) {
             discountPercentage = 100.0f;
         }
-        
+
         float discount = (discountPercentage / 100) * price;
         int discountedPrice = price - (int) discount;
         return discountedPrice;
     }
-    public int getOriginalPrice(int discountedPrice, float discountPercentage){
-        if (discountPercentage > 100.0f){
+
+    public int getOriginalPrice(int discountedPrice, float discountPercentage) {
+        if (discountPercentage > 100.0f) {
             discountPercentage = 100.0f;
         }
-        
+
         float discount = (discountPercentage / 100) * discountedPrice;
         int originalPrice = discountedPrice + (int) discount;
         return originalPrice;
     }
-    public float getAdminFeePercentage(){
+
+    public float getAdminFeePercentage() {
         return 0.05f;
     }
-    public int getAdminFee(int price){
+
+    public int getAdminFee(int price) {
         float adminFeePercentage = getAdminFeePercentage();
         float adminFee = (adminFeePercentage / 100) * price;
         return (int) adminFee;
     }
-    public int getTotalPrice(int price, int numberOfSeat){
+
+    public int getTotalPrice(int price, int numberOfSeat) {
         int adminFee = getAdminFee(price * numberOfSeat);
         return (price * numberOfSeat) + adminFee;
     }
-    
-    public static void main(String[] args){
+
+    public static void main(String[] args) {
+        Integer[] numbers = {18, 10, 22, 43, 18, 67, 12, 11, 88, 22, 18};
+        System.out.println("Number " + Arrays.toString(numbers));
+
+        // Tes Algorithm
+        System.out.print("1. ");
+        testCount(numbers);
+        System.out.print("2. ");
+        testFind(numbers);
+        System.out.print("3. ");
+        testExist(numbers);
+        System.out.println("4. Filtering");
+        testCollect(numbers);
+    }
+
+    private static void testExist(Integer[] t) {
+        int valueToCheck = 67;
+        boolean result3 = Algorithm.exists(t, valueToCheck);
+        if (result3) {
+            System.out.println(valueToCheck + " exist in the array.");
+        } else {
+            System.out.println(valueToCheck + " doesn't exists in the array.");
+        }
+    }
+
+    public static void testCount(Integer[] t) {
+        int valueToCount = 18;
+        int result = Algorithm.count(t, valueToCount);
+        System.out.println("Number " + valueToCount + " appears " + result + " times");
+    }
+
+    public static void testFind(Integer[] t) {
+        Integer valueToFind = 69;
+        Integer result2 = Algorithm.find(t, valueToFind);
+        System.out.print("Finding " + valueToFind + " inside the array : ");
+        if (result2 != null) {
+            System.out.println("Found!" + result2);
+        } else {
+            System.out.println("Not Found");
+        }
+    }
+
+    private static void testCollect(Integer[] t) {
+        Predicate<Integer> below = (val) -> val<=22;
+        Predicate<Integer> above = (val) -> val>43;
+
+        List<Object> integerBelow = Algorithm.collect(t, below);
+        List<Object> integerAbove = Algorithm.collect(t, (Predicate<Integer>) above);
+
+        System.out.println("Below 22");
+        System.out.println(integerBelow);
+        System.out.println("Above 43");
+        System.out.println(integerAbove);
+    }
+}
+        /*
         Integer[] numbers = {10, 20, 30, 40, 50};
         int valueToCheck = 30;
 
@@ -75,7 +141,7 @@ public class JBus {
         } else {
             System.out.println(valueToCheck + " tidak terdapat dalam array.");
         }
-        /*
+
         System.out.println("Hello from Intellij :)");
 
         Bus b = createBus();
@@ -181,11 +247,11 @@ public class JBus {
         int totalPrice = driver.getTotalPrice(price, numberOfSeat);
         System.out.println("Total price for "+ numberOfSeat + " seats: "+ totalPrice);
         */
-    }
 
-    /*public static Bus createBus() {
+
+   /* public static Bus createBus() {
         Price price = new Price(750000, 5);
         Bus bus = new Bus(1, "Netlab Bus", Facility.LUNCH, price, 25, BusType.REGULER, City.BANDUNG, new Station(1, "Depok Terminal", City.DEPOK, "Jl. Margonda Raya"), new Station(2, "Halte UI", City.JAKARTA, "Universitas Indonesia"));
         return bus;
-    }*/
-}
+    }
+}*/
