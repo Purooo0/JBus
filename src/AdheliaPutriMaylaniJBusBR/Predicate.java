@@ -7,5 +7,5 @@ package AdheliaPutriMaylaniJBusBR;
  */
 
 public interface Predicate<T>{
-    boolean test(T t);
+    boolean Predicate(T t);
 }

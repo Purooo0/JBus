@@ -118,11 +118,11 @@ public class JBus {
     }
 
     private static void testCollect(Integer[] t) {
-        Predicate<Integer> below = (val) -> val<=22;
-        Predicate<Integer> above = (val) -> val>43;
+        Predicate<Integer> below = (val) -> val <= 22;
+        Predicate<Integer> above = (val) -> val > 43;
 
-        List<Object> integerBelow = Algorithm.collect(t, below);
-        List<Object> integerAbove = Algorithm.collect(t, (Predicate<Integer>) above);
+        List<Integer> integerBelow = Algorithm.collect(t, below);
+        List<Integer> integerAbove = Algorithm.collect(t, above);
 
         System.out.println("Below 22");
         System.out.println(integerBelow);

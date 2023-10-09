@@ -1,7 +1,6 @@
 package AdheliaPutriMaylaniJBusBR;
 import java.util.Iterator;
 import java.util.*;
-import java.util.function.Predicate;
 import java.lang.reflect.Array;
 
 /**
@@ -15,7 +14,7 @@ import java.lang.reflect.Array;
 
             while (iterator.hasNext()) {
                 T current = iterator.next();
-                if (pred.test(current)) {
+                if (pred.Predicate(current)) {
                     counter++;
                 }
             }
@@ -44,7 +43,7 @@ import java.lang.reflect.Array;
 
         public static <T> T find(Iterable<T> iterable, Predicate<T> pred) {
             for (T item : iterable) {
-                if (pred.test(item)) {
+                if (pred.Predicate(item)) {
                     return item;
                 }
             }
@@ -67,10 +66,21 @@ import java.lang.reflect.Array;
             return find(iterable, (Predicate<T>) obj -> obj.equals(value));
         }
 
+        public static <T> T find(Iterator<T> iterator, Predicate<T> pred) {
+            while (iterator.hasNext()) {
+                T current = iterator.next();
+                if (pred.Predicate(current)) {
+                return current;
+                }
+            }
+            return null;
+        }
+
+
     public static <T> List<T> collect(Iterable<T> iterable, Predicate<T> pred){
         List<T> result = new ArrayList<>();
         for (T current : iterable) {
-            if (pred.test(current)) {
+            if (pred.Predicate(current)) {
                 result.add(current);
             }
         }
@@ -91,7 +101,7 @@ import java.lang.reflect.Array;
     public static <T> List<T> collect(T[] array, Predicate<T> pred){
         List<T> result = new ArrayList<>();
         for (T current : array) {
-            if (pred.test(current)) {
+            if (pred.Predicate(current)) {
                 result.add(current);
             }
         }
@@ -111,7 +121,7 @@ import java.lang.reflect.Array;
         List<T> result = new ArrayList<>();
         while (iterator.hasNext()) {
             T current = iterator.next();
-            if (pred.test(current)) {
+            if (pred.Predicate(current)) {
                 result.add(current);
             }
         }
@@ -149,7 +159,7 @@ import java.lang.reflect.Array;
     public static <T> boolean exists(Iterator<T> iterator, Predicate<T> pred) {
         while (iterator.hasNext()) {
             T current = iterator.next();
-            if (pred.test(current)) {
+            if (pred.Predicate(current)) {
                 return true;
             }
         }

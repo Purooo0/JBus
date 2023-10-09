@@ -26,9 +26,18 @@ public class Bus extends Serializable implements FileParser {
     public Timestamp departureSchedule;
     public Map<String, Boolean> seatAvailability;
     
-    public void addSchedule(Timestamp calendar, int capacity) {
-    Schedule newSchedule = new Schedule(calendar, capacity);
+    public void addSchedule(Timestamp calendar) {
+    Schedule newSchedule = new Schedule(calendar, this.capacity);
     schedules.add(newSchedule);
+    }
+
+    public Schedule getSchedule(Timestamp departureSchedule) {
+        for (Schedule schedule : schedules) {
+            if (schedule.getDepartureSchedule().equals(departureSchedule)) {
+                return schedule;
+            }
+        }
+        return null;
     }
 
     private String formatCalendar(Calendar calendar) {
@@ -52,18 +61,8 @@ public class Bus extends Serializable implements FileParser {
     }
 
     public boolean isSeatAvailable(String seat) {
-    Boolean availability = seatAvailability.get(seat);
-    return availability != null && availability; 
-    }
-    
-    public boolean bookSeat(String seat) {
         Boolean availability = seatAvailability.get(seat);
-        if (availability != null && availability) {
-            seatAvailability.put(seat, false);
-            return true;
-        } else {
-            return false;
-        }
+        return availability != null && availability;
     }
 
     public Bus(int id, String name, Facility facility, Price price, int capacity, BusType busType, City city, Station departure, Station arrival){

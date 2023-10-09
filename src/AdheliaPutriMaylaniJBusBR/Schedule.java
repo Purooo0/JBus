@@ -46,7 +46,16 @@ public class Schedule {
         }
         System.out.println("\n");
     }
-    
+
+    public boolean bookSeat(String seat) {
+        Boolean availability = seatAvailability.get(seat);
+        if (availability != null && availability) {
+            seatAvailability.put(seat, false);
+            return true;
+        } else {
+            return false;
+        }
+    }
     public Timestamp getDepartureSchedule(){
         return departureSchedule;
     }

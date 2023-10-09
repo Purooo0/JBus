@@ -8,8 +8,8 @@ import java.sql.Timestamp;
  */
 
 public class Invoice extends Serializable{
-    public enum BusRating {NONE, BAD, AVERAGE, GOOD, EXCELLENT}
-    public enum PaymentStatus {WAITING, PAID, CANCELED}
+    public enum BusRating {NONE, NEUTRAL, GOOD, BAD}
+    public enum PaymentStatus {FAILED, WAITING, SUCCESS}
     
     public Timestamp time;
     public int buyerId;

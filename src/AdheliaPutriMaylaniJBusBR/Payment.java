@@ -50,11 +50,13 @@ public class Payment extends Invoice{
 
     public static boolean makeBooking(Timestamp departureSchedule, String seat, Bus bus) {
         if (isAvailable(departureSchedule, seat, bus)) {
-            bus.bookSeat(seat);
-            return true;
-        } else {
-            return false;
+            Schedule schedule = bus.getSchedule(departureSchedule);
+            if (schedule != null) {
+                schedule.bookSeat(seat);
+                return true;
+            }
         }
+        return false;
     }
     
     public String toString(){
