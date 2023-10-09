@@ -5,11 +5,70 @@ import java.lang.reflect.Array;
 
 /**
  * Adhelia Putri Maylani [2206814816]
- * Version 6.10.23
+ * Version 9.10.23
  * CS - OOP
  */
     public class Algorithm {
-        public static <T> int count(Iterator<T> iterator, Predicate<T> pred) {
+        private Algorithm(){
+        }
+        public static <T> List<T> paginate(List<T> data, int page, int pageSize, Predicate<T> predicate) {
+            int start = page * pageSize;
+            int end = Math.min(start + pageSize, data.size());
+
+            List<T> result = new ArrayList<>();
+            for (int i = start; i < end; i++) {
+                T item = data.get(i);
+                if (predicate.Predicate(item)) {
+                    result.add(item);
+                }
+            }
+            return result;
+        }
+
+
+    public static <T> List<T> paginate(Iterable<T> data, int page, int pageSize, Predicate<T> predicate) {
+            List<T> result = new ArrayList<>();
+            Iterator<T> iterator = data.iterator();
+
+            int startIndex = page * pageSize;
+            int currentIndex = 0;
+
+            while (iterator.hasNext()) {
+                T item = iterator.next();
+                if (currentIndex >= startIndex) {
+                    if (predicate.Predicate(item)) {
+                        result.add(item);
+                    }
+                }
+                if (result.size() >= pageSize) {
+                    break;
+                }
+                currentIndex++;
+            }
+            return result;
+        }
+
+        public static <T> List<T> paginate(Iterator<T> data, int page, int pageSize, Predicate<T> predicate) {
+            List<T> result = new ArrayList<>();
+            int startIndex = page * pageSize;
+            int currentIndex = 0;
+
+            while (data.hasNext()) {
+                T item = data.next();
+                if (currentIndex >= startIndex) {
+                    if (predicate.Predicate(item)) {
+                        result.add(item);
+                    }
+                }
+                if (result.size() >= pageSize) {
+                    break;
+                }
+                currentIndex++;
+            }
+            return result;
+        }
+
+    public static <T> int count(Iterator<T> iterator, Predicate<T> pred) {
             int counter = 0;
 
             while (iterator.hasNext()) {

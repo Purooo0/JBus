@@ -1,10 +1,11 @@
 package AdheliaPutriMaylaniJBusBR;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 /**
  * Adhelia Putri Maylani [2206814816]
- * Version 14.9.23
+ * Version 9.10.23
  * CS - OOP
  */
 
@@ -15,14 +16,12 @@ public class Payment extends Invoice{
     
     public Payment(int id, int buyerId, int renterId, int busId, String busSeat, Timestamp departureDate) {
         super(id, buyerId, renterId);
-        this.busId = busId;
         this.busSeat = busSeat;
         this.departureDate = departureDate;
     }
 
-    public Payment(int id, Account buyer, Renter renter, int busId, String busSeat, Timestamp departureDate) {
+    public Payment(int id, Account buyer, Renter renter, String busSeat, Timestamp departureDate) {
         super(id, buyer, renter);
-        this.busId = busId;
         this.busSeat = busSeat;
         this.departureDate = departureDate;
     }
@@ -35,30 +34,49 @@ public class Payment extends Invoice{
             return false;
         }
     }
-    
-    public String getDepartureInfo(){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM dd, yyyy");
-        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-        
-        String departureDateString = dateFormat.format(departureDate.getTime());
-        String departureTimeString = timeFormat.format(departureDate.getTime());
-        
-        return "Departure Date: "+ departureDateString + "\n" +
-               "Departure Time: "+ departureTimeString + "\n";
-        
+
+    public String getDepartureInfo() {
+        return "Departure Date: " + departureDate.toString();
+    }
+
+    public static boolean makeBooking(Timestamp departureSchedule, List<String> seats, Bus bus) {
+        if (availableSchedule(departureSchedule, seats, bus) != null) {
+            for (String seat : seats) {
+                bus.bookSeat(seat);
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static Schedule availableSchedule(Timestamp departureSchedule, List<String> seats, Bus bus) {
+        for (Schedule schedule : bus.getSchedules()) {
+            if (schedule.getDepartureSchedule().equals(departureSchedule) && schedule.isSeatAvailable(seats)) {
+                return schedule;
+            }
+        }
+        return null;
     }
 
     public static boolean makeBooking(Timestamp departureSchedule, String seat, Bus bus) {
-        if (isAvailable(departureSchedule, seat, bus)) {
-            Schedule schedule = bus.getSchedule(departureSchedule);
-            if (schedule != null) {
-                schedule.bookSeat(seat);
-                return true;
+        if (availableSchedule(departureSchedule, seat, bus) != null) {
+            bus.bookSeat(seat);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static Schedule availableSchedule(Timestamp departureSchedule, String seat, Bus bus) {
+        for (Schedule schedule : bus.getSchedules()) {
+            if (schedule.getDepartureSchedule().equals(departureSchedule) && schedule.isSeatAvailable(seat)) {
+                return schedule;
             }
         }
-        return false;
+        return null;
     }
-    
+
     public String toString(){
         return "Bus ID: "+ busId  + "\n"+
                 "Departure Date: "+ departureDate + "\n"+

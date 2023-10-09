@@ -1,4 +1,5 @@
 package AdheliaPutriMaylaniJBusBR;
+import java.sql.Timestamp;
 import java.util.HashMap;
 
 /**
@@ -49,4 +50,6 @@ public class Serializable implements Comparable<Serializable> {
         return this.id == other.id;
     }
 
+    public void addSchedule(Timestamp timestamp) {
+    }
 }

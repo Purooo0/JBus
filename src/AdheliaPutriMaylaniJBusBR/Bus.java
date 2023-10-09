@@ -25,10 +25,19 @@ public class Bus extends Serializable implements FileParser {
     public List<Schedule> schedules = new ArrayList<>();
     public Timestamp departureSchedule;
     public Map<String, Boolean> seatAvailability;
-    
-    public void addSchedule(Timestamp calendar) {
-    Schedule newSchedule = new Schedule(calendar, this.capacity);
-    schedules.add(newSchedule);
+    private Set<String> bookedSeats = new HashSet<>();
+
+    public void addSchedule(Schedule schedule) {
+        schedule.setBus(this);
+        if (schedule.getDepartureSchedule() != null && schedule.getDepartureSchedule().equals(this.getDepartureSchedule())) {
+            schedules.add(schedule);
+        } else {
+            System.out.println("Failed to add schedule. Departure date mismatch.");
+        }
+    }
+
+    public List<Schedule> getSchedules() {
+        return schedules;
     }
 
     public Schedule getSchedule(Timestamp departureSchedule) {
@@ -52,13 +61,14 @@ public class Bus extends Serializable implements FileParser {
     public boolean read(String file){
         return true;
     }
-    
+
     public Timestamp getDepartureSchedule() {
-    if (schedules.isEmpty()) {
-        return null; // Return null if there are no schedules
+        if (schedules.isEmpty()) {
+            return null;
+        }
+        return schedules.get(0).getDepartureSchedule();
     }
-    return schedules.get(0).getDepartureSchedule(); // Return the schedule of the first entry
-    }
+
 
     public boolean isSeatAvailable(String seat) {
         Boolean availability = seatAvailability.get(seat);
@@ -87,5 +97,14 @@ public class Bus extends Serializable implements FileParser {
                "City: "+ city + "\n" +
                "Departure Station: "+ departure + "\n" +
                "Arrival Station: "+ arrival;
+    }
+
+    public void bookSeat(String seat) {
+        if (!bookedSeats.contains(seat)) {
+            bookedSeats.add(seat);
+            System.out.println("Seat " + seat + " has been booked.");
+        } else {
+            System.out.println("Seat " + seat + " is already booked.");
+        }
     }
 }

@@ -3,14 +3,16 @@ import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 import java.text.SimpleDateFormat;
 import java.util.Map;
+import java.util.List;
 
 /**
  * Adhelia Putri Maylani [2206814816]
- * Version 29.9.23
+ * Version 9.10.23
  * CS - OOP
  */
 
 public class Schedule {
+    private Bus bus;
     public Timestamp departureSchedule;
     public Map<String, Boolean> seatAvailability;
     
@@ -19,48 +21,61 @@ public class Schedule {
         initializeSeatAvailability(numberOfSeats);
     }
     
-    public void initializeSeatAvailability(int numberOfSeats) {
+    private void initializeSeatAvailability(int numberOfSeats) {
         seatAvailability = new LinkedHashMap<>();
         for (int seatNumber = 1; seatNumber <= numberOfSeats; seatNumber++) {
             String sn = (seatNumber < 10) ? "0" + seatNumber : String.valueOf(seatNumber);
             seatAvailability.put("BR" + sn, true);
         }
     }
-    
-    public void printSchedule() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d, yyyy HH:mm:ss");
-        String formattedDepartureSchedule = dateFormat.format(this.departureSchedule.getTime());
-        System.out.println("Tanggal keberangkatan: " + formattedDepartureSchedule);
-        System.out.println("Daftar kursi dan ketersediaan kursinya: ");
-        int maxSeatsPerRow = 4;
-        int currentSeat = 1;
-        for (Map.Entry<String, Boolean> entry : seatAvailability.entrySet()) {
-            String seat = entry.getKey();
-            boolean isAvailable = entry.getValue();
-            String symbol = isAvailable ? "O" : "X";
-            System.out.print(seat + " : " + symbol + "\t");
-            if (currentSeat % maxSeatsPerRow == 0) {
-                System.out.println();
-            }
-            currentSeat++;
+
+    public void bookSeat(String seat) {
+        if (isSeatAvailable(seat)) {
+            seatAvailability.put(seat, false);
         }
-        System.out.println("\n");
     }
 
-    public boolean bookSeat(String seat) {
-        Boolean availability = seatAvailability.get(seat);
-        if (availability != null && availability) {
-            seatAvailability.put(seat, false);
-            return true;
-        } else {
-            return false;
+    public void bookSeat(List<String> seats) {
+        for (String seat : seats) {
+            bookSeat(seat);
         }
     }
+
+    public boolean isSeatAvailable(String seat) {
+        Boolean availability = seatAvailability.get(seat);
+        return availability != null && availability;
+    }
+
+    public void printSchedule() {
+        System.out.println("Schedule: " + departureSchedule);
+        int totalSeats = seatAvailability.size();
+        int occupiedSeats = (int) seatAvailability.values().stream().filter(b -> !b).count();
+        System.out.println("Occupied: " + occupiedSeats + "/" + totalSeats);
+    }
+
+    public String toString() {
+        return "Schedule: " + departureSchedule + "\nOccupied: " +
+                seatAvailability.values().stream().filter(b -> !b).count() +
+                "/" + seatAvailability.size();
+    }
+
+    public boolean isSeatAvailable(List<String> seats) {
+        for (String seat : seats) {
+            if (!isSeatAvailable(seat)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public Timestamp getDepartureSchedule(){
         return departureSchedule;
     }
     
     public Map<String, Boolean> getSeatAvailability(){
         return seatAvailability;
+    }
+    public void setBus(Bus bus) {
+        this.bus = bus;
     }
 }
