@@ -2,8 +2,13 @@ package AdheliaPutriMaylaniJBusBR;
 import java.util.ArrayList;
 import java.sql.Timestamp;
 import java.util.Arrays;
-import java.util.List;
 import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.List;
+import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * Adhelia Putri Maylani [2206814816]
@@ -76,8 +81,23 @@ public class JBus {
     }
 
     public static void main(String[] args) {
-            // PT Modul 5
-            // Tes Pagination
+        // TP Modul 6
+        String filepath = "/Users/adhelia/Desktop/CS/JBus/data/station.json";
+        Gson gson = new Gson();
+
+        try{
+            BufferedReader buffer = new BufferedReader(new FileReader(filepath));
+            List<Station> stationjson = gson.fromJson(buffer, new TypeToken<List<Station>>() {}.getType());
+            stationjson.forEach((e -> System.out.println(e.toString())));
+            System.out.println();
+            buffer.close();
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+}
+        /*
             Bus b = createBus();
             List<Timestamp> listOfSchedules = new ArrayList<>();
             listOfSchedules.add(Timestamp.valueOf("2023-7-18 15:00:00"));
