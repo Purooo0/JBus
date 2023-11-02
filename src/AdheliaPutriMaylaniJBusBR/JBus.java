@@ -7,6 +7,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
@@ -17,13 +19,38 @@ import com.google.gson.reflect.TypeToken;
  */
 
 public class JBus {
+    public static List<Bus> filterByDeparture(List<Bus> buses, City departure, int page, int pageSize) {
+        List<Bus> filteredBuses = buses.stream()
+                .filter(bus -> bus.getDepartureSchedule().equals(departure))
+                .collect(Collectors.toList());
+
+        int start = (page - 1) * pageSize;
+        int end = Math.min(start + pageSize, filteredBuses.size());
+        if (start >= filteredBuses.size()) {
+            return List.of();
+        }
+        return filteredBuses.subList(start, end);
+    }
+
+    public static void main(String[] args) {
+        try {
+            String filepath = "/Users/adhelia/Desktop/CS/JBus/buses.json";
+            JsonTable<Bus> busList = new JsonTable<>(Bus.class, filepath);
+            List<Bus> filteredBus = filterByDeparture(busList, City.JAKARTA, 1, 10);
+            filteredBus.forEach(bus -> System.out.println(bus.toString()));
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+}
+
     /*
     public static Bus createBus(){
         Price price = new Price (750000, 5);
         Bus bus = new Bus (10, "Netlab Bus", Facility.LUNCH, price, 25);
         return bus;
     }
-    */
+
     public int getBusId() {
         return 0;
     }

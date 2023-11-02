@@ -13,7 +13,7 @@ import java.util.*;
  * CS - OOP
  */
 
-public class Bus implements FileParser {
+public class Bus {
     public String name;
     public Facility facility;
     public Price price;
@@ -27,9 +27,18 @@ public class Bus implements FileParser {
     public Map<String, Boolean> seatAvailability;
     private Set<String> bookedSeats = new HashSet<>();
 
-    public void addSchedule(Timestamp schedule){
+    public void addSchedule(Timestamp schedule) {
         Schedule newSchedule = new Schedule(schedule, this.capacity);
-        schedules.add(newSchedule);
+        try {
+            if (schedules.contains(newSchedule)) {
+                System.out.println("Jadwal dengan waktu yang sama sudah ada. Penambahan dibatalkan.");
+            } else {
+                schedules.add(newSchedule);
+                System.out.println("Jadwal baru berhasil ditambahkan.");
+            }
+        } catch (Exception e) {
+            System.err.println("Terjadi kesalahan dalam penambahan jadwal: " + e.getMessage());
+        }
     }
 
     public List<Schedule> getSchedules() {
