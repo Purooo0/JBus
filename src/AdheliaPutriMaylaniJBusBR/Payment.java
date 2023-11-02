@@ -14,14 +14,14 @@ public class Payment extends Invoice{
     public Timestamp departureDate;
     public String busSeat;
     
-    public Payment(int id, int buyerId, int renterId, int busId, String busSeat, Timestamp departureDate) {
-        super(id, buyerId, renterId);
+    public Payment(int buyerId, int renterId, int busId, String busSeat, Timestamp departureDate) {
+        super(buyerId, renterId);
         this.busSeat = busSeat;
         this.departureDate = departureDate;
     }
 
-    public Payment(int id, Account buyer, Renter renter, String busSeat, Timestamp departureDate) {
-        super(id, buyer, renter);
+    public Payment(Account buyer, Renter renter, String busSeat, Timestamp departureDate) {
+        super(buyer, renter);
         this.busSeat = busSeat;
         this.departureDate = departureDate;
     }
@@ -40,14 +40,12 @@ public class Payment extends Invoice{
     }
 
     public static boolean makeBooking(Timestamp departureSchedule, List<String> seats, Bus bus) {
-        if (availableSchedule(departureSchedule, seats, bus) != null) {
-            for (String seat : seats) {
-                bus.bookSeat(seat);
-            }
+        Schedule schedule = availableSchedule(departureSchedule, seats, bus);
+        if(schedule != null){
+            schedule.bookSeat(seats);
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     public static Schedule availableSchedule(Timestamp departureSchedule, List<String> seats, Bus bus) {

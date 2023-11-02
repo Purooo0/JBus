@@ -11,62 +11,30 @@ import java.lang.reflect.Array;
     public class Algorithm {
         private Algorithm(){
         }
-        public static <T> List<T> paginate(List<T> data, int page, int pageSize, Predicate<T> predicate) {
-            int start = page * pageSize;
-            int end = Math.min(start + pageSize, data.size());
+    public static <T> List<T> paginate(List<T> array, int page, int pageSize, Predicate<T> pred) {
+        final Iterator<T> it = array.iterator();
+        return paginate(it, page, pageSize, pred);
+    }
 
-            List<T> result = new ArrayList<>();
-            for (int i = start; i < end; i++) {
-                T item = data.get(i);
-                if (predicate.Predicate(item)) {
-                    result.add(item);
-                }
+    public static <T> List<T> paginate(Iterable<T> iterable, int page, int pageSize, Predicate<T> pred) {
+        final Iterator<T> it = iterable.iterator();
+        return  paginate(it, page, pageSize, pred);
+    }
+
+    public static <T> List<T> paginate(Iterator<T> iterator, int currentIndex, int pageSize, Predicate<T> pred){
+        List<T> newList = new ArrayList<>();
+        while (iterator.hasNext()){
+            T current = iterator.next();
+            if (currentIndex == 0 && currentIndex < pageSize){
+                newList.add(current);
             }
-            return result;
-        }
-
-
-    public static <T> List<T> paginate(Iterable<T> data, int page, int pageSize, Predicate<T> predicate) {
-            List<T> result = new ArrayList<>();
-            Iterator<T> iterator = data.iterator();
-
-            int startIndex = page * pageSize;
-            int currentIndex = 0;
-
-            while (iterator.hasNext()) {
-                T item = iterator.next();
-                if (currentIndex >= startIndex) {
-                    if (predicate.Predicate(item)) {
-                        result.add(item);
-                    }
-                }
-                if (result.size() >= pageSize) {
-                    break;
-                }
-                currentIndex++;
+            if (currentIndex != 0 && currentIndex < pageSize) {
+                newList.add(current);
             }
-            return result;
+            currentIndex++;
         }
-
-        public static <T> List<T> paginate(Iterator<T> data, int page, int pageSize, Predicate<T> predicate) {
-            List<T> result = new ArrayList<>();
-            int startIndex = page * pageSize;
-            int currentIndex = 0;
-
-            while (data.hasNext()) {
-                T item = data.next();
-                if (currentIndex >= startIndex) {
-                    if (predicate.Predicate(item)) {
-                        result.add(item);
-                    }
-                }
-                if (result.size() >= pageSize) {
-                    break;
-                }
-                currentIndex++;
-            }
-            return result;
-        }
+        return newList;
+    }
 
     public static <T> int count(Iterator<T> iterator, Predicate<T> pred) {
             int counter = 0;
@@ -136,55 +104,50 @@ import java.lang.reflect.Array;
         }
 
 
-    public static <T> List<T> collect(Iterable<T> iterable, Predicate<T> pred){
-        List<T> result = new ArrayList<>();
-        for (T current : iterable) {
-            if (pred.Predicate(current)) {
-                result.add(current);
-            }
-        }
-        return result;
+    public static <T> List<T> collect(Iterable<T> iterable, Predicate<T> pred) {
+        final Iterator<T> it = iterable.iterator();
+        return collect(it, pred);
     }
-    public static <T> List<T> collect(Iterable<T> iterable, T value){
-        for(T current : iterable){
-            if(current == value){
-                return (List<T>) current;
-            }
-        }
-        return null;
+
+    public static <T> List<T> collect(Iterable<T> iterable, T value) {
+        final Iterator<T> it = iterable.iterator();
+        return collect(it, value);
     }
-    public static <T> List<T> collect(T[] array, T value){
+
+    public static <T> List<T> collect(T[] array, T value) {
         final Iterator<T> it = Arrays.stream(array).iterator();
         return collect(it, value);
     }
-    public static <T> List<T> collect(T[] array, Predicate<T> pred){
-        List<T> result = new ArrayList<>();
-        for (T current : array) {
-            if (pred.Predicate(current)) {
-                result.add(current);
-            }
-        }
-        return result;
+
+    public static <T> List<T> collect(T[] array, Predicate<T> pred) {
+        final Iterator<T> it = Arrays.stream(array).iterator();
+        return collect(it, pred);
     }
-    public static <T> List<T> collect(Iterator<T> iterator, T value){
-        List<T> result = new ArrayList<>();
+
+    public static <T> List<T> collect(Iterator<T> iterator, T value) {
+        final Predicate<T> pred = value::equals;
+        return collect(iterator, pred);
+    }
+
+    public static <T> List<T> collect(Iterator<T> iterator, Predicate<T> pred) {
+        List<T> newList = new ArrayList<>();
         while (iterator.hasNext()) {
             T current = iterator.next();
-            if (value.equals(current)) {
-                result.add(current);
+            if (pred.Predicate(current)){
+                newList.add(current);
             }
         }
-        return result;
+        return newList;
     }
-    public static <T> List<T> collect(Iterator<T> iterator, Predicate<T> pred){
-        List<T> result = new ArrayList<>();
+
+    public static <T> boolean exists(Iterator<T> iterator, Predicate<T> pred) {
         while (iterator.hasNext()) {
             T current = iterator.next();
             if (pred.Predicate(current)) {
-                result.add(current);
+                return true;
             }
         }
-        return result;
+        return false;
     }
 
     public static <T> boolean exists(T[] array, T value) {
@@ -193,7 +156,7 @@ import java.lang.reflect.Array;
     }
 
     public static <T> boolean exists(T[] array, Predicate<T> pred) {
-        final Iterator<T> it = java.util.Arrays.stream(array).iterator();
+        final Iterator<T> it = Arrays.stream(array).iterator();
         return exists(it, pred);
     }
 
@@ -206,22 +169,10 @@ import java.lang.reflect.Array;
         final Iterator<T> it = iterable.iterator();
         return exists(it, pred);
     }
+
     public static <T> boolean exists(Iterator<T> iterator, T value) {
-        while (iterator.hasNext()) {
-            T current = iterator.next();
-            if (current.equals(value)) {
-                return true;
-            }
-        }
-        return false;
+        final Predicate<T> pred = value::equals;
+        return exists(iterator, pred);
     }
-    public static <T> boolean exists(Iterator<T> iterator, Predicate<T> pred) {
-        while (iterator.hasNext()) {
-            T current = iterator.next();
-            if (pred.Predicate(current)) {
-                return true;
-            }
-        }
-        return false;
-    }
+
 }

@@ -13,7 +13,7 @@ import java.util.*;
  * CS - OOP
  */
 
-public class Bus extends Serializable implements FileParser {
+public class Bus implements FileParser {
     public String name;
     public Facility facility;
     public Price price;
@@ -27,13 +27,9 @@ public class Bus extends Serializable implements FileParser {
     public Map<String, Boolean> seatAvailability;
     private Set<String> bookedSeats = new HashSet<>();
 
-    public void addSchedule(Schedule schedule) {
-        schedule.setBus(this);
-        if (schedule.getDepartureSchedule() != null && schedule.getDepartureSchedule().equals(this.getDepartureSchedule())) {
-            schedules.add(schedule);
-        } else {
-            System.out.println("Failed to add schedule. Departure date mismatch.");
-        }
+    public void addSchedule(Timestamp schedule){
+        Schedule newSchedule = new Schedule(schedule, this.capacity);
+        schedules.add(newSchedule);
     }
 
     public List<Schedule> getSchedules() {
@@ -75,8 +71,7 @@ public class Bus extends Serializable implements FileParser {
         return availability != null && availability;
     }
 
-    public Bus(int id, String name, Facility facility, Price price, int capacity, BusType busType, City city, Station departure, Station arrival){
-        super(id);
+    public Bus(String name, Facility facility, Price price, int capacity, BusType busType, City city, Station departure, Station arrival){
         this.name = name;
         this.facility = facility;
         this.price = price;
@@ -88,7 +83,7 @@ public class Bus extends Serializable implements FileParser {
     }
     
     public String toString(){
-        return "Bus ID: "+ id + "\n" +
+        return "Bus ID: "+ "\n" +
                "Name: "+ name + "\n" +
                "Facility: "+ facility + "\n" +
                "Price: "+ price + "\n" +

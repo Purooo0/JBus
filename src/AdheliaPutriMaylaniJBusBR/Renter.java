@@ -6,40 +6,32 @@ package AdheliaPutriMaylaniJBusBR;
  * CS - OOP
  */
 
-public class Renter extends Serializable {
+public class Renter{
     public String address;
     public String companyName;
     public int phoneNumber;
     
-    public Renter(int id, String companyName, int phoneNumber){
-        super(id);
+    public Renter(String companyName, int phoneNumber){
         this.companyName = companyName;
         this.address = "";
         this.phoneNumber = phoneNumber;
     }
     
-    public Renter(int id, String companyName, int phoneNumber, String address){
-        super(id);
+    public Renter(String companyName, int phoneNumber, String address){
         this.companyName = companyName;
         this.phoneNumber = phoneNumber;
         this.address = address;
     }
     
-    public Renter(int id, String companyName){
-        super(id);
+    public Renter(String companyName){
         this.companyName = companyName;
         this.address = "";
         this.phoneNumber = 0;
     }
     
-    public Renter(int id, String companyName, String address){
-        super(id);
+    public Renter(String companyName, String address){
         this.companyName = "";
         this.address = "";
         this.phoneNumber = 0;
-    }
-    
-    public int getId(){
-        return id;
     }
 }

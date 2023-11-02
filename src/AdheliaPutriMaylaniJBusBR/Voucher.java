@@ -6,7 +6,7 @@ package AdheliaPutriMaylaniJBusBR;
  * CS - OOP
  */
 
-public class Voucher extends Serializable implements FileParser {
+public class Voucher implements FileParser {
     public String name;
     private boolean used;
     public double minimum;
@@ -22,8 +22,7 @@ public class Voucher extends Serializable implements FileParser {
         return true;
     }
     
-    public Voucher(int id, int code, String name, Type type, double minimum, double cut){
-        super(id);
+    public Voucher(int code, String name, Type type, double minimum, double cut){
         this.name = name;
         this.code = code;
         this.type = type;

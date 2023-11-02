@@ -6,18 +6,17 @@ package AdheliaPutriMaylaniJBusBR;
  * CS - OOP
  */
 
-public class Review extends Serializable{
+public class Review{
     public String date;
     public String desc;
     
-    public Review(int id, String date, String desc){
-        super(id);
+    public Review(String date, String desc){
         this.date = date;
         this.desc = desc;
     }
     
     public String toString(){
-        return "Review ID: "+ id + 
+        return "Review ID: "+
                "\nDate: "+ date +
                "\nDescription: "+ desc;
     }

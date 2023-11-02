@@ -7,20 +7,19 @@ import java.sql.Timestamp;
  * CS - OOP
  */
 
-public class Invoice extends Serializable{
+public class Invoice{
     public enum BusRating {NONE, NEUTRAL, GOOD, BAD}
     public enum PaymentStatus {FAILED, WAITING, SUCCESS}
     
     public Timestamp time;
-    public int buyerId;
+    public Object buyerId;
     public int renterId;
     public Account buyer;
     public Renter renter;
     public BusRating rating = BusRating.NONE;
     public PaymentStatus status = PaymentStatus.WAITING;
     
-    protected Invoice(int id, int buyerId, int renterId){
-        super(id);
+    protected Invoice(int buyerId, int renterId){
         this.buyerId = buyerId;
         this.renterId = renterId;
         this.time = new Timestamp(System.currentTimeMillis());
@@ -28,17 +27,16 @@ public class Invoice extends Serializable{
         this.renter = null;
     }
     
-    public Invoice(int id, Account buyer, Renter renter){
-        super(id);
+    public Invoice(Account buyer, Renter renter){
         this.buyerId = buyerId;
         this.renterId = renterId;
         this.time = new Timestamp(System.currentTimeMillis());
-        this.buyerId = (buyer != null) ? buyer.getId() : 0;
+        this.buyerId = (buyer != null) ? buyer: 0;
         this.renterId = (renter != null) ? renter.getId() : 0;
     }
     
     public String toString(){
-        return "Invoice Id: "+ id + "\n" +
+        return "Invoice Id: "+ "\n" +
                "Buyer Id: " +buyerId + "\n" +
                "Renter Id: " + renterId + "\n" +
                "Rating: " + rating + "\n" +

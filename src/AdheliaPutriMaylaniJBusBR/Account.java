@@ -6,7 +6,7 @@ package AdheliaPutriMaylaniJBusBR;
  * CS - OOP
  */
 
-public class Account extends Serializable implements FileParser {
+public class Account implements FileParser {
     public String email;
     public String name;
     public String password;
@@ -19,20 +19,15 @@ public class Account extends Serializable implements FileParser {
         return true;
     }
     
-    public Account(int id, String name, String email, String password){
-        super(id);
+    public Account(String name, String email, String password){
         this.name = name;
         this.email = email;
         this.password = password;
     }
     
     public String toString(){
-        return "Account ID: "+ id + "\n" +
+        return "Account ID: "+ "\n" +
                "Username: "+ name + "\n" +
                "Email: "+ email;
-    }
-    
-    public int getId(){
-        return id;
     }
 }
