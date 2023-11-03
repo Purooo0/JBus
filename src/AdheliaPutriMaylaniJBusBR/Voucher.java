@@ -6,7 +6,7 @@ package AdheliaPutriMaylaniJBusBR;
  * CS - OOP
  */
 
-public class Voucher implements FileParser {
+public class Voucher {
     public String name;
     private boolean used;
     public double minimum;

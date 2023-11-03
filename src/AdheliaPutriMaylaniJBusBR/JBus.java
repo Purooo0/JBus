@@ -23,13 +23,35 @@ public class JBus {
         List<Bus> filteredBuses = buses.stream()
                 .filter(bus -> bus.getDepartureSchedule().equals(departure))
                 .collect(Collectors.toList());
-
         int start = (page - 1) * pageSize;
         int end = Math.min(start + pageSize, filteredBuses.size());
         if (start >= filteredBuses.size()) {
             return List.of();
         }
         return filteredBuses.subList(start, end);
+    }
+    public static List<Bus> filterByPrice(List<Bus> buses, int min, int max) {
+        List<Bus> filteredBuses = new ArrayList<>();
+        for(Bus bus : buses){
+            if(bus.price.price >= min && bus.price.price <= max){
+                filteredBuses.add(bus);
+            }
+        }
+        return filteredBuses;
+    }
+
+    public static Bus filterBusId(List<Bus> buses, int id) {
+        for (Bus bus : buses){
+            if(bus.id == id){
+                return bus;
+            }
+        }
+        return null;
+    }
+
+    public static List<Bus> filterByDepartureAndArrival(List<Bus> buses, City departure, City arrival, int page, int pageSize){
+        Predicate<Bus> cityExists = (bus) -> bus.city.equals(departure) && bus.city.equals(arrival);
+        return Algorithm.paginate(buses, page, pageSize, cityExists);
     }
 
     public static void main(String[] args) {

@@ -6,7 +6,7 @@ package AdheliaPutriMaylaniJBusBR;
  * CS - OOP
  */
 
-public class Account implements FileParser {
+public class Account {
     public String email;
     public String name;
     public String password;

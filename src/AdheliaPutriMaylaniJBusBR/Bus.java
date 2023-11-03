@@ -25,6 +25,7 @@ public class Bus {
     public List<Schedule> schedules = new ArrayList<>();
     public Timestamp departureSchedule;
     public Map<String, Boolean> seatAvailability;
+    public int id;
     private Set<String> bookedSeats = new HashSet<>();
 
     public void addSchedule(Timestamp schedule) {

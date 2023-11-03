@@ -28,6 +28,7 @@ public class Invoice{
     }
     
     public Invoice(Account buyer, Renter renter){
+        super();
         this.buyerId = buyerId;
         this.renterId = renterId;
         this.time = new Timestamp(System.currentTimeMillis());
