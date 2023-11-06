@@ -3,12 +3,6 @@ import java.util.Iterator;
 import java.util.*;
 import java.lang.reflect.Array;
 
-/**
- * Adhelia Putri Maylani [2206814816]
- * Version 9.10.23
- * CS - OOP
- */
-
 public class Algorithm {
     private Algorithm() {
     }

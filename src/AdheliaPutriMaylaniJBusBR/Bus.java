@@ -1,4 +1,5 @@
 package AdheliaPutriMaylaniJBusBR;
+import java.sql.Time;
 import java.util.List;
 import java.util.ArrayList;
 import java.sql.Timestamp; 
@@ -7,11 +8,8 @@ import java.util.Map;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-/**
- * Adhelia Putri Maylani [2206814816]
- * Version 14.9.23
- * CS - OOP
- */
+import static AdheliaPutriMaylaniJBusBR.Payment.availableSchedule;
+
 
 public class Bus {
     public String name;
@@ -110,6 +108,20 @@ public class Bus {
             System.out.println("Seat " + seat + " has been booked.");
         } else {
             System.out.println("Seat " + seat + " is already booked.");
+        }
+    }
+
+    public void makeBooking(String seat, Timestamp timestamp) {
+        Schedule schedule = getSchedule(timestamp);
+
+        if (schedule != null && isSeatAvailable(seat)) {
+            schedule.bookSeat(seat);
+            seatAvailability.put(seat, false);
+            System.out.println("Thread ID: " + Thread.currentThread().getId() + ", Name: " + Thread.currentThread().getName() +
+                    " booked seat " + seat + " for schedule " + schedule.getDepartureSchedule() + ".");
+        } else {
+            System.out.println("Thread ID: " + Thread.currentThread().getId() + ", Name: " + Thread.currentThread().getName() +
+                    " failed to book seat " + seat + " for schedule " + timestamp + ".");
         }
     }
 }

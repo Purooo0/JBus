@@ -2,28 +2,37 @@ package AdheliaPutriMaylaniJBusBR;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
+
 import java.io.*;
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.Collections;
 import java.util.Vector;
+
 
 public class JsonTable<T> extends Vector<T> {
     private static final Gson gson = new Gson();
     public final String filepath;
 
     @SuppressWarnings("unchecked")
-    public JsonTable(Class<T> clazz, String filepath) throws IOException
-    {
+    public JsonTable(Class<T> clazz, String filepath) throws IOException {
         this.filepath = filepath;
-        try
-        {
+        try {
             Class<T[]> arrayType = (Class<T[]>) Array.newInstance(clazz, 0).getClass();
             T[] loaded = readJson(arrayType, filepath);
-            if (loaded != null)
+            if (loaded != null) {
                 Collections.addAll(this, loaded);
-        }
-        catch (FileNotFoundException e)
-        {
+
+                int lastId = 0;
+                for (T item : this) {
+                    if (item instanceof java.io.Serializable) {
+
+                        java.io.Serializable serializableItem = (java.io.Serializable) item;
+                        lastId = Math.max(lastId, (Integer) serializableItem);
+                    }
+                }
+            }
+        } catch (FileNotFoundException e) {
             File file = new File(filepath);
             File parent = file.getParentFile();
             if (parent != null)
@@ -31,6 +40,7 @@ public class JsonTable<T> extends Vector<T> {
             file.createNewFile();
         }
     }
+
 
     public void writeJson() throws IOException
     {

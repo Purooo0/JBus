@@ -19,6 +19,57 @@ import com.google.gson.reflect.TypeToken;
  */
 
 public class JBus {
+    public JBus() {
+        try {
+            JsonTable<Account> tableAccount = new JsonTable<>(Account.class, "accountDatabase.json");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Bus createBus() {
+        Price price = new Price(750000, 5);
+        Bus bus = new Bus("Netlab Bus", Facility.LUNCH, price, 25, BusType.REGULER, City.BANDUNG,
+                new Station("Depok Terminal", City.DEPOK, "Jl. Margonda Raya"),
+                new Station("Halte UI", City.JAKARTA, "Universitas Indonesia"));
+        Timestamp timestamp = Timestamp.valueOf("2023-07-27 19:00:00");
+        bus.addSchedule(timestamp);
+        return bus;
+    }
+
+    public static void main(String[] args) throws IOException {
+        JBus jBus = new JBus();
+        Bus bus = createBus();
+        bus.schedules.forEach(Schedule::printSchedule);
+
+        for (int i = 0; i < 10; i++) {
+            BookingThread thread = new BookingThread("Thread " + i, bus, Timestamp.valueOf("2023-07-27 19:00:00"));
+        }
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        bus.schedules.forEach(Schedule::printSchedule);
+    }
+}
+        /*
+        JBus jBus = new JBus();
+
+        JsonTable<Account> tableAccount = new JsonTable<>(Account.class, "accountDatabase.json");
+        Account newAccount = new Account("Nama Anda", "email@example.com", "Password123");
+
+        try {
+            tableAccount.add(newAccount);
+            tableAccount.writeJson();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }/
+    }
+
+}
+/*
     public static List<Bus> filterByDeparture(List<Bus> buses, City departure, int page, int pageSize) {
         List<Bus> filteredBuses = buses.stream()
                 .filter(bus -> bus.getDepartureSchedule().equals(departure))

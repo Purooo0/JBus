@@ -5,12 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.Map;
 import java.util.List;
 
-/**
- * Adhelia Putri Maylani [2206814816]
- * Version 9.10.23
- * CS - OOP
- */
-
 public class Schedule {
     private Bus bus;
     public Timestamp departureSchedule;

@@ -3,11 +3,6 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-/**
- * Adhelia Putri Maylani [2206814816]
- * Version 9.10.23
- * CS - OOP
- */
 
 public class Payment extends Invoice{
     private int busId;

@@ -1,10 +1,6 @@
 package AdheliaPutriMaylaniJBusBR;
 import java.util.ArrayList;
-/**
- * Adhelia Putri Maylani [2206814816]
- * Version 28.9.23
- * CS - OOP
- */
+
 public class Validate {
     public static ArrayList filter(Price[] list, double value, boolean less){
         ArrayList result = new ArrayList();

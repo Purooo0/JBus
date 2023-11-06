@@ -1,11 +1,5 @@
 package AdheliaPutriMaylaniJBusBR;
 
-/**
- * Adhelia Putri Maylani [2206814816]
- * Version 14.9.23
- * CS - OOP
- */
-
 public class Rating{
     private long total;
     private long count;

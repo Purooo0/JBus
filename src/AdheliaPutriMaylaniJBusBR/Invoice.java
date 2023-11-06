@@ -1,11 +1,6 @@
 package AdheliaPutriMaylaniJBusBR;
 import java.sql.Timestamp;
 
-/**
- * Adhelia Putri Maylani [2206814816]
- * Version 9.9.23
- * CS - OOP
- */
 
 public class Invoice{
     public enum BusRating {NONE, NEUTRAL, GOOD, BAD}
@@ -33,7 +28,7 @@ public class Invoice{
         this.renterId = renterId;
         this.time = new Timestamp(System.currentTimeMillis());
         this.buyerId = (buyer != null) ? buyer: 0;
-        this.renterId = (renter != null) ? renter.getId() : 0;
+        this.renterId = (renter != null) ? Serializable.getId() : 0;
     }
     
     public String toString(){
