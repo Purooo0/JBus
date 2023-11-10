@@ -1,13 +1,8 @@
 package com.AdheliaPutriMaylaniJBusBR;
-import java.util.ArrayList;
 import java.sql.Timestamp;
-import java.util.Arrays;
-import java.util.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
+
+import com.AdheliaPutriMaylaniJBusBR.dbjson.JsonTable;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

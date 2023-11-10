@@ -1,13 +1,15 @@
 package com.AdheliaPutriMaylaniJBusBR;
 
-public class Station extends Serializable{
+import com.AdheliaPutriMaylaniJBusBR.dbjson.Serializable;
+
+public class Station extends Serializable {
     public String name;
     public City city;
     public String stationName;
     public String address;
 
     public Station(String name, City city, String address) {
-        super(id);
+        super();
         this.name = name;
         this.city = city;
         this.address = address;

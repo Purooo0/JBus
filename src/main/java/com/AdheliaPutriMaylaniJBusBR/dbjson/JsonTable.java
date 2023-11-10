@@ -1,4 +1,4 @@
-package com.AdheliaPutriMaylaniJBusBR;
+package com.AdheliaPutriMaylaniJBusBR.dbjson;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;

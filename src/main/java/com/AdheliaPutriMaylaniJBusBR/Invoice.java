@@ -1,4 +1,6 @@
 package com.AdheliaPutriMaylaniJBusBR;
+import com.AdheliaPutriMaylaniJBusBR.dbjson.Serializable;
+
 import java.sql.Timestamp;
 
 

@@ -4,6 +4,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Account {
+    private Renter renter;
+    private double balance;
     public String email;
     public String name;
     public String password;
@@ -19,6 +21,7 @@ public class Account {
     }
 
     public Account(String name, String email, String password) {
+        this.balance = 0.0;
         this.name = name;
         if (email.matches(REGEX_EMAIL)) {
             this.email = email;

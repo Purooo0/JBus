@@ -1,16 +1,16 @@
 package com.AdheliaPutriMaylaniJBusBR.controller;
 
 import com.AdheliaPutriMaylaniJBusBR.Account;
+import com.AdheliaPutriMaylaniJBusBR.dbjson.JsonTable;
 import org.springframework.web.bind.annotation.*;
-
-
-
-
 
 @RestController
 @RequestMapping("/account")
-public class AccountController
-{
+public class AccountController {
+    public JsonTable<Account> getJsonTable() {
+        return null;
+    }
+
     @GetMapping
     String index() { return "account page"; }
 
