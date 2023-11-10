@@ -1,14 +1,16 @@
 package com.AdheliaPutriMaylaniJBusBR;
 
+import com.AdheliaPutriMaylaniJBusBR.dbjson.Serializable;
+
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
-public class Renter{
+public class Renter extends Serializable{
     public String address;
     public String companyName;
     public String phoneNumber;
-    private final String REGEX_PHONE = "^[0-9]{9,12}$";
-    private final String REGEX_NAME = "^[A-Z][A-Za-z0-9_]{3,19}$";
+    public static final String REGEX_NAME = "^[A-Z][a-zA-Z0-9_]{4,20}$";
+    public static final String REGEX_PHONE_NUMBER = "^[0-9]{9,12}$";
 
     public Renter(int id, String companyName, String phoneNumber) {
         this.companyName = companyName;
@@ -34,15 +36,10 @@ public class Renter{
         this.phoneNumber = "";
     }
 
-    public boolean validate() {
-        Pattern namePattern = Pattern.compile(REGEX_NAME);
-        Matcher name = namePattern.matcher(companyName);
-        Pattern phonePattern = Pattern.compile(REGEX_PHONE);
-        Matcher phone = phonePattern.matcher(phoneNumber);
-
-        boolean companyNameValid = name.matches();
-        boolean phoneNumberValid = phone.matches();
-
-        return companyNameValid && phoneNumberValid;
+    public boolean validate(){
+        if (this.companyName.matches(REGEX_NAME) && this.phoneNumber.matches(REGEX_PHONE_NUMBER)){
+            return true;
+        }
+        return false;
     }
 }

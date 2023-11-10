@@ -1,50 +1,47 @@
 package com.AdheliaPutriMaylaniJBusBR;
-public class Voucher {
+
+import com.AdheliaPutriMaylaniJBusBR.dbjson.Serializable;
+public class Voucher extends Serializable {
     public String name;
     private boolean used;
     public double minimum;
     public double cut;
     public int code;
     public Type type;
-    
-    public Object write(){
-        return this;
-    }
-    
-    public boolean read(String file){
-        return true;
-    }
-    
-    public Voucher(int code, String name, Type type, double minimum, double cut){
+
+    public Voucher(String name, int code, Type type, boolean used, double minimum, double cut) {
         this.name = name;
         this.code = code;
         this.type = type;
+        this.used = used;
         this.minimum = minimum;
         this.cut = cut;
-        this.used = false;
     }
     
     public boolean isUsed(){
         return used;
     }
-    
-    public boolean canApply(Price price){
-        if(!used && price.getValue() > minimum){
+
+    public boolean canApply(Price price) {
+        if (price.price > minimum && this.used == false) {
             return true;
         }
         return false;
     }
-    
-    public double apply(Price price){
-        if (canApply(price)){
-            used = true;
-            if (type == Type.DISCOUNT){
-                double discountAmount = price.getValue() * (cut / 100.0);
-                return price.getValue() - discountAmount;
-            } else if (type == Type.REBATE){
-                return price.getValue() - cut;
+
+    public double apply(Price price) {
+        this.used = true;
+        if (this.type == Type.DISCOUNT) {
+            if (this.cut > 100.0) {
+                this.cut = 100.0;
+                return 0;
             }
+            return price.price - (price.price * this.cut / 100);
+        } else {
+            if (this.cut > price.price) {
+                this.cut = price.price;
+            }
+            return price.price - this.cut;
         }
-        return price.getValue();
     }
 }

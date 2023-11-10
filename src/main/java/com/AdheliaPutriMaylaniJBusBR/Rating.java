@@ -28,10 +28,9 @@ public class Rating{
     public long getTotal(){
         return total;
     }
-    
+
     public String toString(){
-        return "Total Ratings: "+ total + "\n" +
-               "Number of Ratings: "+ count + "\n" +
-               "Average Rating: "+ getAverage();
+        return "Total : "+ this.total +
+                "\nCount : "+ this.count;
     }
 }

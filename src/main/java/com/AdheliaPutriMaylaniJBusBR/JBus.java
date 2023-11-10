@@ -2,6 +2,7 @@ package com.AdheliaPutriMaylaniJBusBR;
 import java.sql.Timestamp;
 import java.io.IOException;
 
+import com.AdheliaPutriMaylaniJBusBR.dbjson.JsonDBEngine;
 import com.AdheliaPutriMaylaniJBusBR.dbjson.JsonTable;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,13 +10,17 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class JBus {
     public JBus() {
+        /*
         try {
             JsonTable<Account> tableAccount = new JsonTable<>(Account.class, "accountDatabase.json");
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+         */
     }
 
+    /*
     public static Bus createBus() {
         Price price = new Price(750000, 5);
         Bus bus = new Bus("Netlab Bus", Facility.LUNCH, price, 25, BusType.REGULER, City.BANDUNG,
@@ -25,8 +30,14 @@ public class JBus {
         bus.addSchedule(timestamp);
         return bus;
     }
-
-    public static void main(String[] args) throws IOException {
+     */
+    public static void main(String[] args) {
+        JsonDBEngine.Run(JBus.class);
+        SpringApplication.run(JBus.class, args);
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> JsonDBEngine.join()));
+    }
+}
+        /*
         SpringApplication.run(JBus.class, args);
 
         JBus jBus = new JBus();

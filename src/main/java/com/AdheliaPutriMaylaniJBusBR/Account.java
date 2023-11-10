@@ -1,56 +1,36 @@
 package com.AdheliaPutriMaylaniJBusBR;
 
+import com.AdheliaPutriMaylaniJBusBR.dbjson.Serializable;
+import com.AdheliaPutriMaylaniJBusBR.dbjson.*;
+import com.AdheliaPutriMaylaniJBusBR.controller.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Account {
+public class Account extends Serializable {
     private Renter renter;
-    private double balance;
+    public double balance;
     public String email;
     public String name;
     public String password;
     public final static String REGEX_PASSWORD = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)[A-Za-z\\d]{8,}$";
     public final static String REGEX_EMAIL = "^[A-Za-z\\d]+@[A-Za-z]+\\.[A-Za-z]+$";
-    
-    public Object write(){
-        return this;
-    }
-    
-    public boolean read(String file){
-        return true;
-    }
 
     public Account(String name, String email, String password) {
-        this.balance = 0.0;
+        super();
+        this.balance = 0;
         this.name = name;
-        if (email.matches(REGEX_EMAIL)) {
-            this.email = email;
-        } else {
-            this.email = "";
-        }
-        if (password.matches(REGEX_PASSWORD)) {
-            this.password = password;
-        } else {
-            this.password = "";
-        }
+        this.email = email;
+        this.password = password;
     }
 
     public boolean validate() {
-        Pattern emailPattern = Pattern.compile(REGEX_EMAIL);
-        Matcher emailMatcher = emailPattern.matcher(email);
-        Pattern passwordPattern = Pattern.compile(REGEX_PASSWORD);
-        Matcher passwordMatcher = passwordPattern.matcher(password);
-
-        boolean emailValid = emailMatcher.matches();
-        boolean passwordValid = passwordMatcher.matches();
-
-        return emailValid && passwordValid;
+        return this.email.matches(REGEX_EMAIL) && this.password.matches(REGEX_PASSWORD);
     }
     
     public String toString(){
-        return "Account ID: "+ "\n" +
-               "Username: "+ name + "\n" +
-               "Email: "+ email;
+        return "Account ID: "+ super.id +
+                "\nName: "+ name +
+                "\nEmail: "+ email +
+                "\nPassword: "+ password;
     }
-
 }

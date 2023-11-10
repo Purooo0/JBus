@@ -5,11 +5,7 @@ public class Price{
     public double price;
     public int discount;
     public double value;
-    
-    public double getValue(){
-        return value;
-    }
-    
+
     public Price(double price){
         this.price = price;
         this.discount = 0;
