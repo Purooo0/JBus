@@ -12,24 +12,24 @@ import java.util.Date;
 public class Payment extends Invoice{
     private int busId;
     public Timestamp departureDate;
-    public String busSeat;
+    public List<String> busSeats;
 
-    public Payment(int buyerId, int renterId, int busId, String busSeat, Timestamp departureDate){
+    public Payment(int buyerId, int renterId, int busId, List<String> busSeats, Timestamp departureDate){
         super(buyerId, renterId);
         this.buyerId = buyerId;
         this.renterId = renterId;
         this.busId = busId;
         this.departureDate = departureDate;
-        this.busSeat = busSeat;
+        this.busSeats = busSeats;
     }
 
-    public Payment(Account buyer, Renter renter, int busId, String busSeat, Timestamp departureDate){
+    public Payment(Account buyer, Renter renter, int busId, List<String> busSeats, Timestamp departureDate){
         super(buyer.id, renter.id);
         this.buyerId = buyerId;
         this.renterId = renterId;
         this.busId = busId;
         this.departureDate = departureDate;
-        this.busSeat = busSeat;
+        this.busSeats = busSeats;
     }
 
     public static boolean isAvailable(Timestamp departureSchedule, String seat, Bus bus){
@@ -48,7 +48,7 @@ public class Payment extends Invoice{
                 "\nrenterId:" + renterId +
                 "\nbusId:" + busId +
                 "\ndepartureDate:" + SDFormat.format(departureDate.getTime())+
-                "\nbusSeat:" + busSeat);
+                "\nbusSeat:" + busSeats);
     }
 
     public static boolean makeBooking(Timestamp departureSchedule, String seat, Bus bus){
@@ -100,12 +100,16 @@ public class Payment extends Invoice{
         return bookingSuccessful;
     }
 
+    public int getBusId(){
+        return busId;
+    }
+
     public String toString(){
         return ("id:" + super.id +
                 "\nbuyerId:" + buyerId +
                 "\nrenterId:" + renterId +
                 "\nbusId:" + busId +
                 "\ndepartureDate:" + departureDate +
-                "\nbusSeat:" + busSeat);
+                "\nbusSeat:" + busSeats);
     }
 }
