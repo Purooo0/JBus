@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/account")
@@ -31,25 +29,24 @@ public class AccountController implements BasicGetController<Account> {
             @RequestParam String email,
             @RequestParam String password
     ){
-        if(!name.isBlank() && new Account(name, email, password).validate() && !Algorithm.exists((Iterable<Account>) accountTable, (Predicate<Account>) e -> e.email.equals(email))){
-            String finalPass = null;
-            try{
-                MessageDigest msgs = MessageDigest.getInstance("MD5");
-                msgs.update(password.getBytes());
-                byte[] bytes = msgs.digest();
+        if (name.isBlank() && !new Account(name, email, password).validate() && Algorithm.exists((Iterable<Account>) accountTable, (Predicate<Account>) e -> e.email.equals(email))) {
+            return new BaseResponse<>(false, "Failed to register", null);
+        } else {
+            String resultPass = null;
+            try {
+                MessageDigest msg = MessageDigest.getInstance("MD5");
+                msg.update(password.getBytes());
+                byte[] bytes = msg.digest();
                 StringBuilder sb = new StringBuilder();
-                for(int i = 0; i < bytes.length; i++){
+                for (int i = 0; i < bytes.length; i++) {
                     sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
                 }
-                finalPass = sb.toString();
-            }
-            catch(NoSuchAlgorithmException e){
+                resultPass = sb.toString();
+            } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
             }
-            Account account =  new Account(name, email, finalPass);
-            return new BaseResponse<>(true, "Berhasil register.", account);
-        } else {
-            return new BaseResponse<>(false, "Gagal registe.", null);
+            Account account = new Account(name, email, resultPass);
+            return new BaseResponse<>(true, "Register successfully", account);
         }
     }
 
@@ -57,17 +54,16 @@ public class AccountController implements BasicGetController<Account> {
     BaseResponse<Account> login (
             @RequestParam String email,
             @RequestParam String password
-    )
-    {
+    ){
         Account account = Algorithm.<Account>find((Iterator<Account>) accountTable, pred -> pred.email == email);
-        if(account != null){
+        if (account != null) {
             String resultPass = null;
-            try{
+            try {
                 MessageDigest msg = MessageDigest.getInstance("MD5");
                 msg.update(password.getBytes());
                 byte[] bytes = msg.digest();
                 StringBuilder sb = new StringBuilder();
-                for(int i = 0; i < bytes.length; i++) {
+                for (int i = 0; i < bytes.length; i++) {
                     sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
                 }
                 resultPass = sb.toString();
@@ -76,10 +72,10 @@ public class AccountController implements BasicGetController<Account> {
                 e.printStackTrace();
             }
             if (resultPass == account.password) {
-                return new BaseResponse<>(true, "Berhasil login", account);
+                return new BaseResponse<>(true, "Login successfully", account);
             }
         }
-        return new BaseResponse<>(false, "Gagal login", null);
+        return new BaseResponse<>(false, "Failed to login", null);
     }
 
     @PostMapping("/{id}/registerRenter")

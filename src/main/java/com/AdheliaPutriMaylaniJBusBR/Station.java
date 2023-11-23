@@ -3,14 +3,13 @@ package com.AdheliaPutriMaylaniJBusBR;
 import com.AdheliaPutriMaylaniJBusBR.dbjson.Serializable;
 
 public class Station extends Serializable {
-    public String name;
     public City city;
     public String stationName;
     public String address;
 
-    public Station(String name, City city, String address) {
+    public Station(String stationName, City city, String address) {
         super();
-        this.name = name;
+        this.stationName = stationName;
         this.city = city;
         this.address = address;
     }

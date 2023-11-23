@@ -2,9 +2,7 @@ package com.AdheliaPutriMaylaniJBusBR.dbjson;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-
 import java.io.*;
-import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.Collections;
 import java.util.Vector;
@@ -29,11 +27,14 @@ public class JsonTable<T> extends Vector<T> {
 
                 int lastId = 0;
                 for (T item : this) {
-                    if (item instanceof java.io.Serializable) {
+                    if (item instanceof Serializable) {
 
-                        java.io.Serializable serializableItem = (java.io.Serializable) item;
+                        Serializable serializableItem = (Serializable) item;
+                        lastId = Math.max(lastId, serializableItem.id);
                     }
                 }
+
+                Serializable.setLastAssignedId(clazz, lastId);
             }
         } catch (FileNotFoundException e) {
             File file = new File(filepath);
@@ -43,7 +44,6 @@ public class JsonTable<T> extends Vector<T> {
             file.createNewFile();
         }
     }
-
 
     public void writeJson() throws IOException
     {

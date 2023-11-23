@@ -1,6 +1,7 @@
 package com.AdheliaPutriMaylaniJBusBR;
 
 import com.AdheliaPutriMaylaniJBusBR.dbjson.Serializable;
+
 public class Voucher extends Serializable {
     public String name;
     private boolean used;
@@ -9,13 +10,14 @@ public class Voucher extends Serializable {
     public int code;
     public Type type;
 
-    public Voucher(String name, int code, Type type, boolean used, double minimum, double cut) {
+    public Voucher(int id, String name, int code, Type type, double minimum, double cut) {
+        super();
         this.name = name;
         this.code = code;
         this.type = type;
-        this.used = used;
         this.minimum = minimum;
         this.cut = cut;
+        this.used = false;
     }
     
     public boolean isUsed(){
@@ -23,25 +25,39 @@ public class Voucher extends Serializable {
     }
 
     public boolean canApply(Price price) {
-        if (price.price > minimum && this.used == false) {
+        if (price.price > minimum && !used) {
             return true;
         }
         return false;
     }
 
-    public double apply(Price price) {
-        this.used = true;
-        if (this.type == Type.DISCOUNT) {
-            if (this.cut > 100.0) {
-                this.cut = 100.0;
+    public double apply(Price price){
+        used = true;
+
+        if(type == Type.DISCOUNT){
+            if(cut > 100){
+                cut = 100;
+            }
+            if(cut == 100){
                 return 0;
             }
-            return price.price - (price.price * this.cut / 100);
-        } else {
-            if (this.cut > price.price) {
-                this.cut = price.price;
-            }
-            return price.price - this.cut;
+            return price.price - ((cut/100.0) * price.price);
         }
+        if(type == Type.REBATE){
+            if(cut >= price.price){
+                return 0;
+            }
+            else{
+                return price.price - cut;
+            }
+        }
+        return price.price;
+    }
+
+    public boolean read(String file){
+        return true;
+    }
+    public Object write(){
+        return null;
     }
 }

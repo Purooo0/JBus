@@ -2,7 +2,7 @@ package com.AdheliaPutriMaylaniJBusBR.dbjson;
 
 import java.util.HashMap;
 
-public class Serializable implements Comparable<Serializable> {
+public class Serializable {
     public final int id;
     private static HashMap<Class<?>, Integer> mapCounter = new HashMap<Class <?>, Integer>();
     protected Serializable(){
@@ -11,6 +11,7 @@ public class Serializable implements Comparable<Serializable> {
         mapCounter.put(getClass(), counter);
         this.id = counter;
     }
+
     public static <T> Integer getLastAssignedId(Class<T> getter ){
         return mapCounter.get(getter);
     }
@@ -30,4 +31,5 @@ public class Serializable implements Comparable<Serializable> {
     public boolean equals(Object object){
         return object instanceof Serializable && ((Serializable) object).id == this.id;
     }
+
 }

@@ -11,6 +11,12 @@ java {
 	sourceCompatibility = '11'
 }
 
+jar {
+	manifest {
+		attributes 'Main-class' : 'JBus'
+	}
+}
+
 repositories {
 	mavenCentral()
 }

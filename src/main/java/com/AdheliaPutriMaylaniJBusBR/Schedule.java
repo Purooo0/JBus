@@ -17,9 +17,9 @@ public class Schedule {
     public void bookSeat(String seat){
         if (isSeatAvailable(seat)) {
             seatAvailability.put(seat, false);
-            System.out.println("Seats " + seat + " ordered successfully.");
+            System.out.println("Seat " + seat + " ordered successfully");
         } else {
-            System.out.println("Seats " + seat + " not available to order");
+            System.out.println("Seat " + seat + " not available to order");
         }
         /*if (seatAvailability.containsKey(seat)) {
             seatAvailability.put(seat, false);

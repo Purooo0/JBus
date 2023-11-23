@@ -1,6 +1,5 @@
 package com.AdheliaPutriMaylaniJBusBR.controller;
 
-import com.AdheliaPutriMaylaniJBusBR.Bus;
 import com.AdheliaPutriMaylaniJBusBR.City;
 import com.AdheliaPutriMaylaniJBusBR.Station;
 import com.AdheliaPutriMaylaniJBusBR.dbjson.JsonAutowired;
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/station")
 public class StationController implements BasicGetController<Station> {
-    public static @JsonAutowired(value = Station.class, filepath = "/Users/adhelia/Desktop/CS/JBus/src/main/java/com/AdheliaPutriMaylaniJBusBR/json/account.json") JsonTable<Station> stationTable;
+    public static @JsonAutowired(value = Station.class, filepath = "/Users/adhelia/Desktop/CS/JBus/src/main/java/com/AdheliaPutriMaylaniJBusBR/json/station.json") JsonTable<Station> stationTable;
     @Override
     public JsonTable<Station> getJsonTable() {
         return stationTable;

@@ -1,13 +1,9 @@
 package com.AdheliaPutriMaylaniJBusBR;
 
 import com.AdheliaPutriMaylaniJBusBR.dbjson.Serializable;
-import com.AdheliaPutriMaylaniJBusBR.dbjson.*;
-import com.AdheliaPutriMaylaniJBusBR.controller.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Account extends Serializable {
-    private Renter renter;
+    public Renter company;
     public double balance;
     public String email;
     public String name;
@@ -16,15 +12,31 @@ public class Account extends Serializable {
     public final static String REGEX_EMAIL = "^[A-Za-z\\d]+@[A-Za-z]+\\.[A-Za-z]+$";
 
     public Account(String name, String email, String password) {
-        super();
         this.balance = 0;
         this.name = name;
         this.email = email;
         this.password = password;
+        this.company = null;
     }
 
     public boolean validate() {
         return this.email.matches(REGEX_EMAIL) && this.password.matches(REGEX_PASSWORD);
+    }
+
+    public boolean read(String file){
+        return true;
+    }
+
+    public Object write(){
+        return null;
+    }
+
+    public boolean topUp(double amount){
+        if (amount <= 0){
+            return false;
+        }
+        balance += balance + amount;
+        return true;
     }
     
     public String toString(){

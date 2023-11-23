@@ -10,15 +10,12 @@ public class Rating{
     }
     
     public void insert(int rating){
-        total += rating;
+        total = total + rating;
         count++;
     }
     
     public double getAverage(){
-        if(count == 0){
-            return 0.0;
-        }
-        return (double) total / count;
+        return total / count;
     }
     
     public long getCount(){

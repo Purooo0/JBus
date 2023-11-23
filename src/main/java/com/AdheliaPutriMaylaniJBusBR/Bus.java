@@ -2,13 +2,9 @@ package com.AdheliaPutriMaylaniJBusBR;
 
 import com.AdheliaPutriMaylaniJBusBR.dbjson.Serializable;
 
-import javax.sql.rowset.serial.SerialArray;
 import java.util.List;
 import java.util.ArrayList;
 import java.sql.Timestamp;
-import java.util.*;
-
-import static com.AdheliaPutriMaylaniJBusBR.Payment.availableSchedule;
 
 public class Bus extends Serializable {
     public String name;
@@ -33,11 +29,11 @@ public class Bus extends Serializable {
         this.accountId = accountId;
     }
 
-    public void addSchedule(Timestamp calendar){
+    public void addSchedule(Timestamp departureSchedule){
         try {
             boolean isDuplicate = false;
             for (Schedule existingSchedule : schedules) {
-                if (existingSchedule.departureSchedule.equals(calendar)) {
+                if (existingSchedule.departureSchedule.equals(departureSchedule)) {
                     isDuplicate = true;
                     break;
                 }
@@ -45,14 +41,12 @@ public class Bus extends Serializable {
             if (isDuplicate) {
                 System.out.println("Terdapat jadwal dengan waktu yang sama.");
             } else {
-                Schedule newSchedule = new Schedule(calendar, capacity);
+                Schedule newSchedule = new Schedule(departureSchedule, capacity);
                 schedules.add(newSchedule);
             }
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             System.out.println("Terjadi kesalahan saat menambahkan jadwal: "+ e.getMessage());
         }
-        Schedule newSchedule = new Schedule(calendar, capacity);
-        schedules.add(newSchedule);
     }
 
     public Object write(){
