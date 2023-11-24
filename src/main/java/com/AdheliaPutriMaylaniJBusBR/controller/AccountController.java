@@ -18,9 +18,9 @@ public class AccountController implements BasicGetController<Account> {
     @JsonAutowired(value = Account.class, filepath = "/Users/adhelia/Desktop/CS/JBus/src/main/java/com/AdheliaPutriMaylaniJBusBR/json/account.json")
     public static JsonTable<Account> accountTable;
 
-    @GetMapping("/account")
-    public JsonTable<Account> getJsonTable(){
-        return accountTable;
+    @GetMapping
+    String index(){
+        return "account";
     }
 
     @PostMapping("/register")
@@ -29,25 +29,29 @@ public class AccountController implements BasicGetController<Account> {
             @RequestParam String email,
             @RequestParam String password
     ){
-        if (name.isBlank() && !new Account(name, email, password).validate() && Algorithm.exists((Iterable<Account>) accountTable, (Predicate<Account>) e -> e.email.equals(email))) {
-            return new BaseResponse<>(false, "Failed to register", null);
-        } else {
-            String resultPass = null;
-            try {
-                MessageDigest msg = MessageDigest.getInstance("MD5");
-                msg.update(password.getBytes());
-                byte[] bytes = msg.digest();
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < bytes.length; i++) {
-                    sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-                }
-                resultPass = sb.toString();
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
+        String encyptedPassword = null;
+        try{
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(password.getBytes());
+            byte[] bytes = md.digest();
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < bytes.length; i++) {
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
             }
-            Account account = new Account(name, email, resultPass);
-            return new BaseResponse<>(true, "Register successfully", account);
+
+            encyptedPassword = sb.toString();
+        }catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
         }
+
+        Account acc = new Account(name, email, password);
+        Account responseAcc = new Account(name, email, encyptedPassword);
+        if(!acc.name.isBlank() && acc.validate() && !Algorithm.<Account>exists(getJsonTable(), t -> t.email == acc.email)){
+            accountTable.add(responseAcc);
+            return new BaseResponse<Account>(true, "Register succesful", responseAcc);
+        }
+        return new BaseResponse<Account>(false, "Failed to register", null);
     }
 
     @PostMapping("/Login")
@@ -55,27 +59,27 @@ public class AccountController implements BasicGetController<Account> {
             @RequestParam String email,
             @RequestParam String password
     ){
-        Account account = Algorithm.<Account>find((Iterator<Account>) accountTable, pred -> pred.email == email);
-        if (account != null) {
-            String resultPass = null;
-            try {
-                MessageDigest msg = MessageDigest.getInstance("MD5");
-                msg.update(password.getBytes());
-                byte[] bytes = msg.digest();
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < bytes.length; i++) {
-                    sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-                }
-                resultPass = sb.toString();
+        String encyptedPassword = null;
+        try{
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(password.getBytes());
+            byte[] bytes = md.digest();
+            StringBuilder sb = new StringBuilder();
+            for(int i = 0; i < bytes.length; i++){
+                sb.append((Integer.toString((bytes[i] & 0xff)+ 0x100, 16).substring(1)));
             }
-            catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            }
-            if (resultPass == account.password) {
-                return new BaseResponse<>(true, "Login successfully", account);
-            }
+            encyptedPassword = sb.toString();
+        }catch(NoSuchAlgorithmException e){
+            e.printStackTrace();
         }
-        return new BaseResponse<>(false, "Failed to login", null);
+        Account acc = new Account(null, email, encyptedPassword);
+        if (
+                Algorithm.<Account>exists(getJsonTable(), akun -> akun.email.equals(acc.email)
+                        && akun.password.equals(acc.password))
+        ) {
+            return new BaseResponse<Account>(true, "Login successful", acc);
+        }
+        return new BaseResponse<Account>(false, "Failed to Login", null);
     }
 
     @PostMapping("/{id}/registerRenter")
@@ -102,5 +106,10 @@ public class AccountController implements BasicGetController<Account> {
         }else{
             return false;
         }
+    }
+
+    @Override
+    public JsonTable<Account> getJsonTable() {
+        return this.accountTable;
     }
 }
