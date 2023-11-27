@@ -15,7 +15,7 @@ import java.util.Iterator;
 @RestController
 @RequestMapping("/account")
 public class AccountController implements BasicGetController<Account> {
-    @JsonAutowired(value = Account.class, filepath = "/Users/adhelia/Desktop/CS/JBus/src/main/java/com/AdheliaPutriMaylaniJBusBR/json/account.json")
+    @JsonAutowired(value = Account.class, filepath = "C:\\Users\\adhelia\\Desktop\\CS\\JBus\\src\\main\\java\\com\\AdheliaPutriMaylaniJBusBR\\json\\account.json")
     public static JsonTable<Account> accountTable;
 
     @GetMapping
