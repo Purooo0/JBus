@@ -67,9 +67,7 @@ public class JsonDBEngine
 						// so the next instantiation can follow up the counter
 						if (!table.isEmpty() && Serializable.class.isAssignableFrom(value))
 						{
-							//Serializable serial = Collections.max((JsonTable<? extends Serializable>) table);
-							Serializable serial = Collections.max((JsonTable<Serializable>) table, null);
-
+							Serializable serial = Collections.max((JsonTable<? extends Serializable>) table);
 							if (serial != null)
 								Serializable.setLastAssignedId((Class<? extends Serializable>) value, serial.id);
 						}
