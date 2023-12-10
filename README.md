@@ -1,4 +1,4 @@
-# **JBus Application**
+# JBus Application
 JBus is an application designed to facilitate bus booking and management. Below is a brief overview of how the application works:
 
 1. Bus Management:
@@ -42,14 +42,14 @@ JBus is an application designed to facilitate bus booking and management. Below 
 Note:
 Detailed functionality and interactions between entities may require a more in-depth examination of the code. The overview provides a high-level understanding of the JBus application's key features.
 
-# Overview
+## Overview
 The Bus Booking System (BusBR) is a Java application designed to manage and facilitate bus bookings. It includes classes for buses, schedules, bookings, vouchers, and more. The system is developed as a console application with various functionalities related to bus operations and bookings.
 
-# How to Use
+## How to Use
 1. Clone the repository.
 2. Open the project in your favorite Java IDE.
 3. Run the Main class to start the console application.
 4. Follow the on-screen instructions to navigate through the functionalities.
 
-# Contributor
+## Author
 Adhelia Putri Maylani [2206814816]
